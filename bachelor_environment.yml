@@ -1,0 +1,56 @@
+name: tf
+channels:
+  - defaults
+dependencies:
+  - tensorflow
+  - prompt_toolkit
+  - ca-certificates
+  - matplotlib-inline
+  - platformdirs
+  - jupyter_core
+  - pyzmq
+  - libsodium
+  - nest-asyncio
+  - readline
+  - ptyprocess
+  - libcxx
+  - six
+  - zlib
+  - bzip2
+  - prompt-toolkit
+  - ncurses
+  - packaging
+  - python-dateutil
+  - jedi
+  - pexpect
+  - parso
+  - stack_data
+  - zeromq
+  - executing
+  - psutil
+  - jupyter_client
+  - ipython
+  - appnope
+  - wheel
+  - openssl
+  - debugpy
+  - decorator
+  - pip
+  - comm
+  - sqlite
+  - setuptools
+  - asttokens
+  - tk
+  - tzdata
+  - pure_eval
+  - wcwidth
+  - tornado
+  - xz
+  - traitlets
+  - libffi
+  - python=3.11
+  - pygments
+  - ipykernel
+  - matplotlib
+  - scikit-image
+prefix: /Users/gustavnielsen/opt/anaconda3/envs/tf
