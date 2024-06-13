@@ -3,6 +3,10 @@ from keras.applications.inception_v3 import InceptionV3
 import matplotlib.pyplot as plt
 
 def preprocess(images, labels):
+  """
+    Preprocces helper function
+    return: preprocessed image with pixel values scaled between -1 and 1
+  """ 
   return tf.keras.applications.inception_v3.preprocess_input(images), labels
 
 # Load images
@@ -17,6 +21,7 @@ chex_model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
+#Alternatively load checkpoint model
 #chex_model = tf.keras.saving.load_model("best_3_chex_0001_random_wd_005_b_64.h5")
 
 #Validation images

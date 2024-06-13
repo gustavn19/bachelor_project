@@ -9,6 +9,8 @@ import itertools
 def calculate_fid(feat1, feat2):
     '''
     calculate fid between two sets of images
+    feat1: feature vector obtained from inception model
+    feat2: feature vector obtained from inception model
     return: fid score
     '''
     # calculate mean and covariance of features
@@ -28,6 +30,10 @@ def calculate_fid(feat1, feat2):
 
 
 def preprocess(images, labels):
+  """
+    Preprocces helper function
+    return: preprocessed image with pixel values scaled between -1 and 1
+    """ 
   return tf.keras.applications.inception_v3.preprocess_input(images), labels
 
 def get_features(images, model_weights, class_idx):

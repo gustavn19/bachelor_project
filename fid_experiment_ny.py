@@ -10,6 +10,8 @@ import json
 def calculate_fid(feat1, feat2):
     '''
     calculate fid between two sets of images
+    feat1: feature vector obtained from inception model
+    feat2: feature vector obtained from inception model
     return: fid score
     '''
     # calculate mean and covariance of features
@@ -18,7 +20,7 @@ def calculate_fid(feat1, feat2):
     # sum squared difference between means
     diff = np.sum((mu1 - mu2)**2)
  
-    # calculate geometric mean of covariance matrices
+    # calculate "geometric mean" of covariance matrices
     covmean = fractional_matrix_power(sigma1.dot(sigma2), 0.5)
     # check for imaginary numbers
     if np.iscomplexobj(covmean):
@@ -29,11 +31,18 @@ def calculate_fid(feat1, feat2):
 
 
 def preprocess(images, labels):
-  return tf.keras.applications.inception_v3.preprocess_input(images), labels
+    """
+    Preprocces helper function
+    return: preprocessed image with pixel values scaled between -1 and 1
+    """ 
+    return tf.keras.applications.inception_v3.preprocess_input(images), labels
 
 def get_features(images, model_weights, class_idx):
     '''
     Load Inceptionv3 model and get feature vectors of images
+    images: Images to get feature representations for
+    model_weights: File path to model weights or "imagenet" for imagenet weights
+    class_idx: Dictionary that maps class_number (e.g. class 0 or class 1) to all the image indexes for this class
     return: feature vectors
     '''
 
@@ -48,6 +57,12 @@ def get_features(images, model_weights, class_idx):
 
 
 def fid_experiment(image_path, models):
+    '''
+    Perform experiment of type like experiment 3
+    image_path: Path to folder containing the experiment images, which all are seperated into subfolders for each label/class
+    models: List of file paths to model weights or "imagenet" for imagenet weights
+    return: Prints FID from the experiment
+    '''
     images_raw = tf.keras.utils.image_dataset_from_directory(directory = image_path, image_size= (299, 299),shuffle=False)
     class_names = images_raw.class_names
     images_all = images_raw.map(preprocess)
@@ -70,6 +85,7 @@ def fid_experiment(image_path, models):
     for model in models:
         features = get_features(images_all, model, class_idx)
         if len(features[3]) >= 2*smallest_class: #Check if number of normal samples is greater than two times the smallest class
+            # Choose index of baseline (3) class and infiltration (1 and 0)
             for infiltration in np.arange(0,smallest_class, int(smallest_class/4)):
                 a = features[3][:smallest_class]
                 b = np.concatenate((features[3][samllest_class : 2*smallest_class - infiltration], features[0][:infiltration]), axis = 0)
@@ -105,5 +121,6 @@ def fid_experiment(image_path, models):
 
 if __name__ == "__main__":
     models = ["no_top_best_3_chex_0001_random_wd_005_b_64.h5", "imagenet", "RadImageNet-InceptionV3_notop.h5"]
+    # Update iamge path for performing experiment on different data
     image_path = "heart_lung_images"
     fid_experiment(image_path, models)
