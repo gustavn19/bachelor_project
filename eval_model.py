@@ -7,7 +7,7 @@ import json
 
 def preprocess(images, labels):
   return tf.keras.applications.inception_v3.preprocess_input(images), labels
-loaded_model = tf.keras.saving.load_model("best_3_chex_0001_random_wd_005_b_64.h5")
+loaded_model = tf.keras.saving.load_model("best_3_chex_0001_random_wd_005_b_64.h5") # laod model
 #loaded_model.layers[0].save_weights("no_top_best_chex_00001_random_wd_05_b_64.h5")
 #print("New model saved")
 #loaded_model = tf.keras.saving.load_model("best_chex_0001_random_wd_005_b_64.h5")
@@ -16,6 +16,7 @@ loaded_model = tf.keras.saving.load_model("best_3_chex_0001_random_wd_005_b_64.h
 #    base_model,
 #    tf.keras.layers.Dense(1, activation='sigmoid')
 #])
+
 #Load test images
 chexpert_images_raw = tf.keras.utils.image_dataset_from_directory(directory = "nih3/val", image_size= (299, 299),shuffle=False)
 chexpert_images = chexpert_images_raw.map(preprocess)
